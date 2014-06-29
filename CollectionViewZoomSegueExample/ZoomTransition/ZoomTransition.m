@@ -9,8 +9,10 @@
 #import "ZoomTransition.h"
 
 @interface ZoomTransition()
+
 @property (nonatomic, assign) UINavigationControllerOperation operation;
 @property (nonatomic, assign) BOOL shouldCompleteTransition;
+@property (nonatomic, assign, getter = isInteractive) BOOL interactive;
 
 @end
 

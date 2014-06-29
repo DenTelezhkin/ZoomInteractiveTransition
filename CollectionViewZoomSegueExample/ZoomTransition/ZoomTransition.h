@@ -16,6 +16,4 @@
 
 @property (nonatomic, assign) CGFloat transitionDuration;
 
-@property(nonatomic,assign,getter = isInteractive) BOOL interactive;
-
 @end
