@@ -10,9 +10,11 @@
 #import "PlaceKit.h"
 #import "KittenCell.h"
 #import "KittenDetailViewController.h"
+#import "ZoomTransition.h"
 
 @interface KittenCollectionViewController ()
 @property (nonatomic, strong) NSArray * names;
+@property (nonatomic, strong) ZoomTransition * transition;
 
 @end
 
@@ -23,6 +25,7 @@
     [super viewDidLoad];
     
     self.names = [self kittensArrayOfSize:50];
+    self.transition = [[ZoomTransition alloc] initWithNavigationController:self.navigationController];
 }
 
 -(NSArray *)kittensArrayOfSize:(NSInteger)size

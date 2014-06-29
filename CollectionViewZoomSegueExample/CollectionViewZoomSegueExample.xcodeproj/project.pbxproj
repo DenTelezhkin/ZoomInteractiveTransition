@@ -12,6 +12,7 @@
 		9A011C20196004B500971EEA /* KittenCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A011C1F196004B500971EEA /* KittenCollectionViewController.m */; };
 		9A011C23196004EC00971EEA /* KittenDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A011C22196004EC00971EEA /* KittenDetailViewController.m */; };
 		9A011C271960081E00971EEA /* KittenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A011C261960081E00971EEA /* KittenCell.m */; };
+		9A011C2B19602C3100971EEA /* ZoomTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A011C2A19602C3100971EEA /* ZoomTransition.m */; };
 		9A7B9C8B195FFB17007F2011 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A7B9C89195FFB17007F2011 /* InfoPlist.strings */; };
 		9A7B9C8D195FFB17007F2011 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B9C8C195FFB17007F2011 /* main.m */; };
 		9A7B9C91195FFB17007F2011 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B9C90195FFB17007F2011 /* AppDelegate.m */; };
@@ -38,6 +39,8 @@
 		9A011C22196004EC00971EEA /* KittenDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KittenDetailViewController.m; path = Controllers/KittenDetailViewController.m; sourceTree = "<group>"; };
 		9A011C251960081E00971EEA /* KittenCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KittenCell.h; path = Cells/KittenCell.h; sourceTree = "<group>"; };
 		9A011C261960081E00971EEA /* KittenCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KittenCell.m; path = Cells/KittenCell.m; sourceTree = "<group>"; };
+		9A011C2919602C3100971EEA /* ZoomTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoomTransition.h; path = ZoomTransition/ZoomTransition.h; sourceTree = "<group>"; };
+		9A011C2A19602C3100971EEA /* ZoomTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoomTransition.m; path = ZoomTransition/ZoomTransition.m; sourceTree = "<group>"; };
 		9A7B9C7D195FFB17007F2011 /* CollectionViewZoomSegueExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewZoomSegueExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A7B9C88195FFB17007F2011 /* CollectionViewZoomSegueExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CollectionViewZoomSegueExample-Info.plist"; sourceTree = "<group>"; };
 		9A7B9C8A195FFB17007F2011 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -100,9 +103,19 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		9A011C2819602C0800971EEA /* ZoomTransition */ = {
+			isa = PBXGroup;
+			children = (
+				9A011C2919602C3100971EEA /* ZoomTransition.h */,
+				9A011C2A19602C3100971EEA /* ZoomTransition.m */,
+			);
+			name = ZoomTransition;
+			sourceTree = "<group>";
+		};
 		9A7B9C74195FFB17007F2011 = {
 			isa = PBXGroup;
 			children = (
+				9A011C2819602C0800971EEA /* ZoomTransition */,
 				9A7B9C86195FFB17007F2011 /* CollectionViewZoomSegueExample */,
 				9A7B9C9F195FFB17007F2011 /* Tests */,
 				9A7B9C7E195FFB17007F2011 /* Products */,
@@ -304,6 +317,7 @@
 				9A011C23196004EC00971EEA /* KittenDetailViewController.m in Sources */,
 				9A011C20196004B500971EEA /* KittenCollectionViewController.m in Sources */,
 				9A7B9C91195FFB17007F2011 /* AppDelegate.m in Sources */,
+				9A011C2B19602C3100971EEA /* ZoomTransition.m in Sources */,
 				9A7B9C8D195FFB17007F2011 /* main.m in Sources */,
 				9A011C271960081E00971EEA /* KittenCell.m in Sources */,
 			);
