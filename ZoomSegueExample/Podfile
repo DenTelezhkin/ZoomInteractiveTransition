@@ -1,6 +1,6 @@
 inhibit_all_warnings!
 
-target "CollectionViewZoomSegueExample" do
+target "ZoomSegueExample" do
 	pod 'PlaceKit'
 end
 
