@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0FB789FD857C453BBC33FFEB /* libPods-ZoomSegueExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E70F607D0246238DB12795 /* libPods-ZoomSegueExample.a */; };
-		9A011C2B19602C3100971EEA /* ZoomTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A011C2A19602C3100971EEA /* ZoomTransition.m */; };
 		9A9D7BFD1961EDFF00BA98BC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D7BFC1961EDFF00BA98BC /* AppDelegate.m */; };
 		9A9D7BFF1961EE0900BA98BC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A9D7BFE1961EE0900BA98BC /* Images.xcassets */; };
 		9A9D7C021961EE1C00BA98BC /* KittenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D7C011961EE1C00BA98BC /* KittenCell.m */; };
@@ -17,13 +16,12 @@
 		9A9D7C0A1961EE3100BA98BC /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A9D7C091961EE3100BA98BC /* Storyboard.storyboard */; };
 		9A9D7C0F1961EE4E00BA98BC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D7C0E1961EE4E00BA98BC /* main.m */; };
 		9A9D7C121961EE6B00BA98BC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A9D7C101961EE6B00BA98BC /* InfoPlist.strings */; };
+		9A9D7C151961EF1100BA98BC /* ZoomTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D7C141961EF1100BA98BC /* ZoomTransition.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		58E2439A28B9484A8AABF302 /* Pods-ZoomSegueExample.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZoomSegueExample.xcconfig"; path = "Pods/Pods-ZoomSegueExample.xcconfig"; sourceTree = "<group>"; };
 		67E70F607D0246238DB12795 /* libPods-ZoomSegueExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZoomSegueExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A011C2919602C3100971EEA /* ZoomTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoomTransition.h; path = ZoomTransition/ZoomTransition.h; sourceTree = "<group>"; };
-		9A011C2A19602C3100971EEA /* ZoomTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoomTransition.m; path = ZoomTransition/ZoomTransition.m; sourceTree = "<group>"; };
 		9A7B9C7D195FFB17007F2011 /* ZoomSegueExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZoomSegueExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A9D7BFB1961EDFF00BA98BC /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ZoomSegueExample/AppDelegate.h; sourceTree = SOURCE_ROOT; };
 		9A9D7BFC1961EDFF00BA98BC /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ZoomSegueExample/AppDelegate.m; sourceTree = SOURCE_ROOT; };
@@ -39,6 +37,8 @@
 		9A9D7C0C1961EE4800BA98BC /* Example.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Example.plist; path = ZoomSegueExample/Example.plist; sourceTree = SOURCE_ROOT; };
 		9A9D7C0E1961EE4E00BA98BC /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ZoomSegueExample/main.m; sourceTree = SOURCE_ROOT; };
 		9A9D7C111961EE6B00BA98BC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ZoomSegueExample/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		9A9D7C131961EF1100BA98BC /* ZoomTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoomTransition.h; path = ../ZoomTransition/ZoomTransition.h; sourceTree = "<group>"; };
+		9A9D7C141961EF1100BA98BC /* ZoomTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoomTransition.m; path = ../ZoomTransition/ZoomTransition.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,8 +85,8 @@
 		9A011C2819602C0800971EEA /* ZoomTransition */ = {
 			isa = PBXGroup;
 			children = (
-				9A011C2919602C3100971EEA /* ZoomTransition.h */,
-				9A011C2A19602C3100971EEA /* ZoomTransition.m */,
+				9A9D7C131961EF1100BA98BC /* ZoomTransition.h */,
+				9A9D7C141961EF1100BA98BC /* ZoomTransition.m */,
 			);
 			name = ZoomTransition;
 			sourceTree = "<group>";
@@ -245,9 +245,9 @@
 				9A9D7C081961EE2800BA98BC /* KittenDetailViewController.m in Sources */,
 				9A9D7C071961EE2800BA98BC /* KittenCollectionViewController.m in Sources */,
 				9A9D7C021961EE1C00BA98BC /* KittenCell.m in Sources */,
-				9A011C2B19602C3100971EEA /* ZoomTransition.m in Sources */,
 				9A9D7C0F1961EE4E00BA98BC /* main.m in Sources */,
 				9A9D7BFD1961EDFF00BA98BC /* AppDelegate.m in Sources */,
+				9A9D7C151961EF1100BA98BC /* ZoomTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
