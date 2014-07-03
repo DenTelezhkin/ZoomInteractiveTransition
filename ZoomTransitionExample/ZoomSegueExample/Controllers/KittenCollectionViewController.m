@@ -11,10 +11,13 @@
 #import "KittenCell.h"
 #import "KittenDetailViewController.h"
 #import "ZoomTransition.h"
+#import "ZoomTransitionProtocol.h"
 
-@interface KittenCollectionViewController ()
+@interface KittenCollectionViewController () <ZoomTransitionProtocol>
+
 @property (nonatomic, strong) NSArray * names;
 @property (nonatomic, strong) ZoomTransition * transition;
+@property (nonatomic, strong) NSIndexPath * selectedIndexPath;
 
 @end
 
@@ -45,8 +48,8 @@
     if ([segue.identifier isEqual:@"toKittenDetailViewController"])
     {
         KittenDetailViewController * dvc = segue.destinationViewController;
-        NSIndexPath * selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
-        KittenCell * selectedCell = (KittenCell *)[self.collectionView cellForItemAtIndexPath:selectedIndexPath];
+        self.selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
+        KittenCell * selectedCell = (KittenCell *)[self.collectionView cellForItemAtIndexPath:self.selectedIndexPath];
         dvc.kittenName = selectedCell.kittenName.text;
         dvc.kittenImage = selectedCell.kittenImage.image;
     }
@@ -70,6 +73,13 @@
                                                                   forIndexPath:indexPath];
     [cell updateWithKitten:self.names[indexPath.row]];
     return cell;
+}
+
+#pragma mark - ZoomTransitionProtocol
+
+-(UIView *)viewForZoomTransition:(ZoomTransition *)transition
+{
+    return [self.collectionView cellForItemAtIndexPath:self.selectedIndexPath];
 }
 
 @end

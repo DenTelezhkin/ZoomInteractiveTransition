@@ -7,8 +7,10 @@
 //
 
 #import "KittenDetailViewController.h"
+#import "ZoomTransitionProtocol.h"
 
-@interface KittenDetailViewController ()
+@interface KittenDetailViewController () <ZoomTransitionProtocol>
+
 @property (weak, nonatomic) IBOutlet UIImageView *kittenImageView;
 @property (weak, nonatomic) IBOutlet UILabel *kittenLabel;
 
@@ -22,6 +24,13 @@
     
     [self.kittenImageView setImage:self.kittenImage];
     self.kittenLabel.text = self.kittenName;
+}
+
+#pragma mark - ZoomTransitionProtocol
+
+-(UIView *)viewForZoomTransition:(ZoomTransition *)transition
+{
+    return self.kittenImageView;
 }
 
 @end

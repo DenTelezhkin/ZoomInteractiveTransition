@@ -7,12 +7,15 @@
 //
 
 #import "ZoomTransition.h"
+#import "ZoomTransitionProtocol.h"
+#import "UIView+Snapshotting.h"
 
 @interface ZoomTransition()
 
 @property (nonatomic, assign) UINavigationControllerOperation operation;
 @property (nonatomic, assign) BOOL shouldCompleteTransition;
 @property (nonatomic, assign, getter = isInteractive) BOOL interactive;
+
 
 @end
 
@@ -39,13 +42,20 @@
 
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
-    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    UIViewController <ZoomTransitionProtocol> * fromVC = (id)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController <ZoomTransitionProtocol> *toVC = (id)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView * containerView = [transitionContext containerView];
     UIView * fromView = [fromVC view];
     UIView * toView = [toVC view];
     
     [containerView addSubview:toView];
+    
+    UIView * zoomFromView = [fromVC viewForZoomTransition:self];
+    UIView * zoomToView = [toVC viewForZoomTransition:self];
+    
+    UIImage * fromSnapshot = [zoomFromView dt_takeSnapshot];
+    UIImage * toSnapshot = [zoomToView dt_takeSnapshot];
+    
     
     fromView.alpha = 1;
     toView.alpha = 0;
@@ -59,7 +69,7 @@
                                  options:UIViewKeyframeAnimationOptionCalculationModeLinear
                               animations:^{
                                   
-                                  [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:1 animations:^{
+                                  [UIView addKeyframeWithRelativeStartTime:0.9 relativeDuration:0.1 animations:^{
                                       fromView.alpha = 0;
                                       toView.alpha = 1;
                                   }];
@@ -115,7 +125,11 @@
         return  nil;
     }
     
-    self.operation = operation;
+    if (![fromVC conformsToProtocol:@protocol(ZoomTransitionProtocol)] ||
+        ![toVC conformsToProtocol:@protocol(ZoomTransitionProtocol)])
+    {
+        return nil;
+    }
     
     return self;
 }
