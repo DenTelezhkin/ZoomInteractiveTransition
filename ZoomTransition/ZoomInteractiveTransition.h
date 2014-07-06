@@ -6,17 +6,9 @@
 //  Copyright (c) 2014 Denys Telezhkin. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "ZoomTransitionProtocol.h"
 
-@protocol PinchGestureHandling <NSObject>
-
--(void)handlePinch:(UIPinchGestureRecognizer *)gestureRecognizer;
-
-@end
-
-
-@interface ZoomInteractiveTransition : UIPercentDrivenInteractiveTransition <UINavigationControllerDelegate,UIViewControllerAnimatedTransitioning, PinchGestureHandling>
+@interface ZoomInteractiveTransition : UIPercentDrivenInteractiveTransition <UINavigationControllerDelegate,UIViewControllerAnimatedTransitioning>
 
 @property (nonatomic, assign) UINavigationController * navigationController;
 

@@ -51,7 +51,6 @@
         self.selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
         KittenCell * selectedCell = (KittenCell *)[self.collectionView cellForItemAtIndexPath:self.selectedIndexPath];
         dvc.kittenImage = selectedCell.kittenImage.image;
-        dvc.gestureTarget = self.transition;
     }
 }
 

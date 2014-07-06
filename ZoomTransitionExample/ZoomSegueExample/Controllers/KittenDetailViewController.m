@@ -22,9 +22,6 @@
     [super viewDidLoad];
     
     [self.kittenImageView setImage:self.kittenImage];
-    
-    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self.gestureTarget action:@selector(handlePinch:)];
-    [self.view addGestureRecognizer:pinchRecognizer];
 }
 
 #pragma mark - ZoomTransitionProtocol

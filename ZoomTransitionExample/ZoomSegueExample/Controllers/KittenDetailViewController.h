@@ -12,6 +12,5 @@
 @interface KittenDetailViewController : UIViewController
 
 @property (nonatomic, strong) UIImage * kittenImage;
-@property (nonatomic, weak) id <PinchGestureHandling> gestureTarget;
 
 @end

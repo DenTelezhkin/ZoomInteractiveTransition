@@ -172,35 +172,6 @@
     }
 }
 
-- (void) handlePinch:(UIPinchGestureRecognizer *)gr {
-    CGFloat scale = gr.scale;
-    
-    switch (gr.state) {
-        case UIGestureRecognizerStateBegan:
-            self.interactive = YES;
-            self.startScale = scale;
-            [self.navigationController popViewControllerAnimated:YES];
-            break;
-        case UIGestureRecognizerStateChanged: {
-            CGFloat percent = (1.0 - scale / self.startScale);
-            self.shouldCompleteTransition = (percent > 0.25);
-            
-            [self updateInteractiveTransition: (percent <= 0.0) ? 0.0 : percent];
-            break;
-        }
-        case UIGestureRecognizerStateEnded:
-        case UIGestureRecognizerStateCancelled:
-            if (!self.shouldCompleteTransition || gr.state == UIGestureRecognizerStateCancelled)
-                [self cancelInteractiveTransition];
-            else
-                [self finishInteractiveTransition];
-            self.interactive = NO;
-            break;
-        default:
-            break;
-    }
-}
-
 #pragma mark - UINavigationControllerDelegate
 
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
