@@ -10,6 +10,11 @@
 
 @interface UIView (Snapshotting)
 
+/**
+  Take snapshot of a view by using pre-iOS 7 snapshotting.
+ 
+ @return UIImage of rendered UIView.
+ */
 -(UIImage *)dt_takeSnapshot;
 
 @end
