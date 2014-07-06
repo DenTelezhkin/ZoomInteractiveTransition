@@ -16,7 +16,6 @@
 @property (nonatomic, assign) BOOL shouldCompleteTransition;
 @property (nonatomic, assign, getter = isInteractive) BOOL interactive;
 
-
 @end
 
 @implementation ZoomTransition
@@ -26,7 +25,6 @@
     if (self = [super init]) {
         self.navigationController = nc;
         self.transitionDuration = 0.3;
-        [self.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(handleEdgePan:)];
         nc.delegate = self;
     }
     
@@ -81,11 +79,8 @@
                                  options:UIViewKeyframeAnimationOptionCalculationModeCubic
                               animations:^{
                                   animatingImageView.frame = [zoomToView.superview convertRect:zoomToView.frame toView:containerView];
-
-                                  [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:1 animations:^{
-                                      fromView.alpha = 0;
-                                      toView.alpha = 1;
-                                  }];
+                                  fromView.alpha = 0;
+                                  toView.alpha = 1;
                               } completion:^(BOOL finished) {
                                   if ([transitionContext transitionWasCancelled]) {
                                       [toView removeFromSuperview];
@@ -94,7 +89,6 @@
                                   } else {
                                       [fromView removeFromSuperview];
                                       [transitionContext completeTransition:YES];
-                                      
                                       zoomToView.alpha = 1;
                                   }
                                   [animatingImageView removeFromSuperview];
