@@ -25,7 +25,7 @@
 {
     if (self = [super init]) {
         self.navigationController = nc;
-        self.transitionDuration = 0.35;
+        self.transitionDuration = 0.3;
         [self.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(handleEdgePan:)];
         nc.delegate = self;
     }
@@ -78,7 +78,7 @@
     
     [UIView animateKeyframesWithDuration:self.transitionDuration
                                    delay:0
-                                 options:UIViewKeyframeAnimationOptionCalculationModeCubicPaced
+                                 options:UIViewKeyframeAnimationOptionCalculationModeCubic
                               animations:^{
                                   animatingImageView.frame = [zoomToView.superview convertRect:zoomToView.frame toView:containerView];
 
