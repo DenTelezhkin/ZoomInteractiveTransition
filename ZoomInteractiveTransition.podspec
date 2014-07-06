@@ -5,7 +5,6 @@ Pod::Spec.new do |s|
   s.summary      = "Simple zoom transition using iOS 7 Custom View Controller Transitions API "
 
   s.homepage     = "https://github.com/DenHeadless/ZoomInteractiveTransition"
-  s.screenshots  = "https://github.com/DenHeadless/ZoomInteractiveTransition/blob/master/ZoomInteractiveTransition.gif"
   s.license      = "MIT"
 
   s.author             = { "Denys Telezhkin" => "denys.telezhkin@yandex.ru" }
