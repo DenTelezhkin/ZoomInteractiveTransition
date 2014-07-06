@@ -79,7 +79,8 @@
 
 -(UIView *)viewForZoomTransition:(ZoomTransition *)transition
 {
-    return [self.collectionView cellForItemAtIndexPath:self.selectedIndexPath];
+    KittenCell * cell = (KittenCell *)[self.collectionView cellForItemAtIndexPath:self.selectedIndexPath];
+    return cell.kittenImage;
 }
 
 @end

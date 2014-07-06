@@ -25,7 +25,7 @@
 {
     if (self = [super init]) {
         self.navigationController = nc;
-        self.transitionDuration = 1;
+        self.transitionDuration = 0.35;
         [self.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(handleEdgePan:)];
         nc.delegate = self;
     }
@@ -56,9 +56,21 @@
     UIImage * fromSnapshot = [zoomFromView dt_takeSnapshot];
     UIImage * toSnapshot = [zoomToView dt_takeSnapshot];
     
+    UIImage * animateSnapshot = toSnapshot;
+    if (fromSnapshot.size.width>toSnapshot.size.width)
+    {
+        animateSnapshot = fromSnapshot;
+    }
     
     fromView.alpha = 1;
     toView.alpha = 0;
+    zoomFromView.alpha = 0;
+    zoomToView.alpha = 0;
+    
+    UIImageView * animatingImageView = [[UIImageView alloc] initWithImage:animateSnapshot];
+    animatingImageView.frame = [zoomFromView.superview convertRect:zoomFromView.frame toView:containerView];
+    animatingImageView.contentMode = UIViewContentModeScaleAspectFill;
+    [containerView addSubview:animatingImageView];
     
     UIScreenEdgePanGestureRecognizer *edgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(handleEdgePan:)];
     edgePanRecognizer.edges = UIRectEdgeLeft;
@@ -66,10 +78,11 @@
     
     [UIView animateKeyframesWithDuration:self.transitionDuration
                                    delay:0
-                                 options:UIViewKeyframeAnimationOptionCalculationModeLinear
+                                 options:UIViewKeyframeAnimationOptionCalculationModeCubicPaced
                               animations:^{
-                                  
-                                  [UIView addKeyframeWithRelativeStartTime:0.9 relativeDuration:0.1 animations:^{
+                                  animatingImageView.frame = [zoomToView.superview convertRect:zoomToView.frame toView:containerView];
+
+                                  [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:1 animations:^{
                                       fromView.alpha = 0;
                                       toView.alpha = 1;
                                   }];
@@ -77,10 +90,14 @@
                                   if ([transitionContext transitionWasCancelled]) {
                                       [toView removeFromSuperview];
                                       [transitionContext completeTransition:NO];
+                                      zoomFromView.alpha = 1;
                                   } else {
                                       [fromView removeFromSuperview];
                                       [transitionContext completeTransition:YES];
+                                      
+                                      zoomToView.alpha = 1;
                                   }
+                                  [animatingImageView removeFromSuperview];
                               }];
 }
 
