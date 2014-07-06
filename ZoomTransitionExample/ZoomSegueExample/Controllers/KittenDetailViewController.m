@@ -12,7 +12,6 @@
 @interface KittenDetailViewController () <ZoomTransitionProtocol>
 
 @property (weak, nonatomic) IBOutlet UIImageView *kittenImageView;
-@property (weak, nonatomic) IBOutlet UILabel *kittenLabel;
 
 @end
 
@@ -23,7 +22,9 @@
     [super viewDidLoad];
     
     [self.kittenImageView setImage:self.kittenImage];
-    self.kittenLabel.text = self.kittenName;
+    
+    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self.gestureTarget action:@selector(handlePinch:)];
+    [self.view addGestureRecognizer:pinchRecognizer];
 }
 
 #pragma mark - ZoomTransitionProtocol

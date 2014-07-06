@@ -10,13 +10,13 @@
 #import "PlaceKit.h"
 #import "KittenCell.h"
 #import "KittenDetailViewController.h"
-#import "ZoomTransition.h"
+#import "ZoomInteractiveTransition.h"
 #import "ZoomTransitionProtocol.h"
 
 @interface KittenCollectionViewController () <ZoomTransitionProtocol>
 
 @property (nonatomic, strong) NSArray * names;
-@property (nonatomic, strong) ZoomTransition * transition;
+@property (nonatomic, strong) ZoomInteractiveTransition * transition;
 @property (nonatomic, strong) NSIndexPath * selectedIndexPath;
 
 @end
@@ -28,7 +28,7 @@
     [super viewDidLoad];
     
     self.names = [self kittensArrayOfSize:50];
-    self.transition = [[ZoomTransition alloc] initWithNavigationController:self.navigationController];
+    self.transition = [[ZoomInteractiveTransition alloc] initWithNavigationController:self.navigationController];
 }
 
 -(NSArray *)kittensArrayOfSize:(NSInteger)size
@@ -50,8 +50,8 @@
         KittenDetailViewController * dvc = segue.destinationViewController;
         self.selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
         KittenCell * selectedCell = (KittenCell *)[self.collectionView cellForItemAtIndexPath:self.selectedIndexPath];
-        dvc.kittenName = selectedCell.kittenName.text;
         dvc.kittenImage = selectedCell.kittenImage.image;
+        dvc.gestureTarget = self.transition;
     }
 }
 

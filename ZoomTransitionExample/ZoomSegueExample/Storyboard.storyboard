@@ -76,28 +76,21 @@
         <!--Kitten Detail View Controller-->
         <scene sceneID="cRc-6w-53R">
             <objects>
-                <viewController id="Gg6-Cq-HT9" customClass="KittenDetailViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Gg6-Cq-HT9" customClass="KittenDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hZf-rx-sFg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="byi-6Y-7Sq">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="1" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Mwk-hD-2jH">
-                                <rect key="frame" x="0.0" y="485" width="320" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="0gg-Mf-Zj2"/>
                     <connections>
                         <outlet property="kittenImageView" destination="byi-6Y-7Sq" id="95j-kD-1pY"/>
-                        <outlet property="kittenLabel" destination="Mwk-hD-2jH" id="xzc-9N-Vdl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oOj-Fj-k8B" userLabel="First Responder" sceneMemberID="firstResponder"/>

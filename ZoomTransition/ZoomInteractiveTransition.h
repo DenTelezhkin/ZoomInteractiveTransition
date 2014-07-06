@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZoomTransitionProtocol.h"
 
-@interface ZoomTransition : UIPercentDrivenInteractiveTransition <UINavigationControllerDelegate,UIViewControllerAnimatedTransitioning>
+@protocol PinchGestureHandling <NSObject>
 
-- (instancetype)initWithNavigationController:(UINavigationController *)nc;
+-(void)handlePinch:(UIPinchGestureRecognizer *)gestureRecognizer;
+
+@end
+
+
+@interface ZoomInteractiveTransition : UIPercentDrivenInteractiveTransition <UINavigationControllerDelegate,UIViewControllerAnimatedTransitioning, PinchGestureHandling>
 
 @property (nonatomic, assign) UINavigationController * navigationController;
 
@@ -19,5 +25,7 @@
 @property (nonatomic, assign) BOOL handleEdgePanBackGesture;
 
 @property (nonatomic, assign) UIViewKeyframeAnimationOptions transitionAnimationOption;
+
+- (instancetype)initWithNavigationController:(UINavigationController *)nc;
 
 @end

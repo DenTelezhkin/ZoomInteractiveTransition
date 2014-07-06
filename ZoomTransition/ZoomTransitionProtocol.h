@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ZoomTransition.h"
 
 typedef void(^ZoomAnimationBlock)(UIImageView * animatedSnapshot, UIView * sourceView, UIView * destinationView);
 

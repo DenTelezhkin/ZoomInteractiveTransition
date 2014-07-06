@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZoomInteractiveTransition.h"
 
 @interface KittenDetailViewController : UIViewController
 
-@property (nonatomic, strong) NSString * kittenName;
 @property (nonatomic, strong) UIImage * kittenImage;
+@property (nonatomic, weak) id <PinchGestureHandling> gestureTarget;
 
 @end

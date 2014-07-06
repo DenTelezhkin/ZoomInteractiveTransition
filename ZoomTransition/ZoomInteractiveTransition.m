@@ -6,19 +6,19 @@
 //  Copyright (c) 2014 Denys Telezhkin. All rights reserved.
 //
 
-#import "ZoomTransition.h"
-#import "ZoomTransitionProtocol.h"
+#import "ZoomInteractiveTransition.h"
 #import "UIView+Snapshotting.h"
 
-@interface ZoomTransition()
+@interface ZoomInteractiveTransition()
 
+@property (nonatomic, assign) CGFloat startScale;
 @property (nonatomic, assign) UINavigationControllerOperation operation;
 @property (nonatomic, assign) BOOL shouldCompleteTransition;
 @property (nonatomic, assign, getter = isInteractive) BOOL interactive;
 
 @end
 
-@implementation ZoomTransition
+@implementation ZoomInteractiveTransition
 
 -(void)commonSetup
 {
@@ -154,6 +154,35 @@
             break;
         case UIGestureRecognizerStateChanged: {
             CGFloat percent = point.x / gr.view.frame.size.width;
+            self.shouldCompleteTransition = (percent > 0.25);
+            
+            [self updateInteractiveTransition: (percent <= 0.0) ? 0.0 : percent];
+            break;
+        }
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:
+            if (!self.shouldCompleteTransition || gr.state == UIGestureRecognizerStateCancelled)
+                [self cancelInteractiveTransition];
+            else
+                [self finishInteractiveTransition];
+            self.interactive = NO;
+            break;
+        default:
+            break;
+    }
+}
+
+- (void) handlePinch:(UIPinchGestureRecognizer *)gr {
+    CGFloat scale = gr.scale;
+    
+    switch (gr.state) {
+        case UIGestureRecognizerStateBegan:
+            self.interactive = YES;
+            self.startScale = scale;
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
+        case UIGestureRecognizerStateChanged: {
+            CGFloat percent = (1.0 - scale / self.startScale);
             self.shouldCompleteTransition = (percent > 0.25);
             
             [self updateInteractiveTransition: (percent <= 0.0) ? 0.0 : percent];
