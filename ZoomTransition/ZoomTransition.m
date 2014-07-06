@@ -20,14 +20,29 @@
 
 @implementation ZoomTransition
 
+-(void)commonSetup
+{
+    self.transitionDuration = 0.3;
+    self.handleEdgePanBackGesture = YES;
+    self.transitionAnimationOption = UIViewKeyframeAnimationOptionCalculationModeCubic;
+}
+
 - (instancetype)initWithNavigationController:(UINavigationController *)nc
 {
     if (self = [super init]) {
         self.navigationController = nc;
-        self.transitionDuration = 0.3;
         nc.delegate = self;
+        [self commonSetup];
     }
-    
+    return self;
+}
+
+-(instancetype)init
+{
+    if (self = [super init])
+    {
+        [self commonSetup];
+    }
     return self;
 }
 
@@ -36,6 +51,24 @@
 -(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
 {
     return self.transitionDuration;
+}
+
+-(UIImageView *)initialZoomSnapshotFromView:(UIView *)sourceView
+                            destinationView:(UIView *)destinationView
+{
+    
+    UIImage * fromSnapshot = [sourceView dt_takeSnapshot];
+    UIImage * toSnapshot = [destinationView dt_takeSnapshot];
+    
+    UIImage * animateSnapshot = toSnapshot;
+    if (fromSnapshot.size.width>toSnapshot.size.width)
+    {
+        animateSnapshot = fromSnapshot;
+    }
+    UIImageView * sourceImageView = [[UIImageView alloc] initWithImage:animateSnapshot];
+    sourceImageView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    return sourceImageView;
 }
 
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
@@ -48,39 +81,52 @@
     
     [containerView addSubview:toView];
     
-    UIView * zoomFromView = [fromVC viewForZoomTransition:self];
-    UIView * zoomToView = [toVC viewForZoomTransition:self];
+    UIView * zoomFromView = [fromVC viewForZoomTransition];
+    UIView * zoomToView = [toVC viewForZoomTransition];
     
-    UIImage * fromSnapshot = [zoomFromView dt_takeSnapshot];
-    UIImage * toSnapshot = [zoomToView dt_takeSnapshot];
+    UIImageView * animatingImageView = [self initialZoomSnapshotFromView:zoomFromView
+                                                         destinationView:zoomToView];
     
-    UIImage * animateSnapshot = toSnapshot;
-    if (fromSnapshot.size.width>toSnapshot.size.width)
+    if ([fromVC respondsToSelector:@selector(initialZoomViewSnapshotFromProposedSnapshot:)])
     {
-        animateSnapshot = fromSnapshot;
+        animatingImageView = [fromVC initialZoomViewSnapshotFromProposedSnapshot:animatingImageView];
     }
+    
+    animatingImageView.frame = [zoomFromView.superview convertRect:zoomFromView.frame
+                                                            toView:containerView];
     
     fromView.alpha = 1;
     toView.alpha = 0;
     zoomFromView.alpha = 0;
     zoomToView.alpha = 0;
-    
-    UIImageView * animatingImageView = [[UIImageView alloc] initWithImage:animateSnapshot];
-    animatingImageView.frame = [zoomFromView.superview convertRect:zoomFromView.frame toView:containerView];
-    animatingImageView.contentMode = UIViewContentModeScaleAspectFill;
     [containerView addSubview:animatingImageView];
     
-    UIScreenEdgePanGestureRecognizer *edgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(handleEdgePan:)];
-    edgePanRecognizer.edges = UIRectEdgeLeft;
-    [toView addGestureRecognizer:edgePanRecognizer];
+    if (self.handleEdgePanBackGesture)
+    {
+        UIScreenEdgePanGestureRecognizer *edgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self
+                                                                                                                action:@selector(handleEdgePan:)];
+        edgePanRecognizer.edges = UIRectEdgeLeft;
+        [toView addGestureRecognizer:edgePanRecognizer];
+    }
+    
+    ZoomAnimationBlock animationBlock = nil;
+    if ([fromVC respondsToSelector:@selector(animationBlockForZoomTransition)])
+    {
+        animationBlock = [fromVC animationBlockForZoomTransition];
+    }
     
     [UIView animateKeyframesWithDuration:self.transitionDuration
                                    delay:0
-                                 options:UIViewKeyframeAnimationOptionCalculationModeCubic
+                                 options:self.transitionAnimationOption
                               animations:^{
                                   animatingImageView.frame = [zoomToView.superview convertRect:zoomToView.frame toView:containerView];
                                   fromView.alpha = 0;
                                   toView.alpha = 1;
+                                  
+                                  if (animationBlock)
+                                  {
+                                      animationBlock(animatingImageView,zoomFromView,zoomToView);
+                                  }
                               } completion:^(BOOL finished) {
                                   if ([transitionContext transitionWasCancelled]) {
                                       [toView removeFromSuperview];

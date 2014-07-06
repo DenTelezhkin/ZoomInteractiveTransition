@@ -9,8 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "ZoomTransition.h"
 
+typedef void(^ZoomAnimationBlock)(UIImageView * animatedSnapshot, UIView * sourceView, UIView * destinationView);
+
 @protocol ZoomTransitionProtocol <NSObject>
 
--(UIView *)viewForZoomTransition:(ZoomTransition *)transition;
+-(UIView *)viewForZoomTransition;
+
+@optional
+
+-(UIImageView *)initialZoomViewSnapshotFromProposedSnapshot:(UIImageView *)snapshot;
+
+-(ZoomAnimationBlock)animationBlockForZoomTransition;
 
 @end

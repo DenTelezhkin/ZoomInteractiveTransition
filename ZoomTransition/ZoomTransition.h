@@ -16,4 +16,8 @@
 
 @property (nonatomic, assign) CGFloat transitionDuration;
 
+@property (nonatomic, assign) BOOL handleEdgePanBackGesture;
+
+@property (nonatomic, assign) UIViewKeyframeAnimationOptions transitionAnimationOption;
+
 @end

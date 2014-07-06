@@ -77,7 +77,7 @@
 
 #pragma mark - ZoomTransitionProtocol
 
--(UIView *)viewForZoomTransition:(ZoomTransition *)transition
+-(UIView *)viewForZoomTransition
 {
     KittenCell * cell = (KittenCell *)[self.collectionView cellForItemAtIndexPath:self.selectedIndexPath];
     return cell.kittenImage;
