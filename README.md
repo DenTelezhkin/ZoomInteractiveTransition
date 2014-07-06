@@ -38,7 +38,7 @@ Available customizations:
 * interactive pop back gesture
 * initial snapshot
 
-Additionally, you can plug in your own keyframe animations, that will run alongside interactive transition. These can be supplied via optional <ZoomTransitionProtocol> method animatinBlockForZoomTransition.
+Additionally, you can plug in your own keyframe animations, that will run alongside interactive transition. These can be supplied via optional <ZoomTransitionProtocol> method animationBlockForZoomTransition.
 
 ## Example
 
