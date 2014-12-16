@@ -99,8 +99,8 @@
     
     [containerView addSubview:toView];
     
-    UIView * zoomFromView = [fromVC viewForZoomTransition];
-    UIView * zoomToView = [toVC viewForZoomTransition];
+    UIView * zoomFromView = [fromVC viewForZoomTransition:true];
+    UIView * zoomToView = [toVC viewForZoomTransition:false];
     
     UIImageView * animatingImageView = [self initialZoomSnapshotFromView:zoomFromView
                                                          destinationView:zoomToView];
