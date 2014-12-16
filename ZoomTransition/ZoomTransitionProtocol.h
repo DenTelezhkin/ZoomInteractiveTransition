@@ -34,11 +34,13 @@ typedef void(^ZoomAnimationBlock)(UIImageView * animatedSnapshot, UIView * sourc
 @protocol ZoomTransitionProtocol <NSObject>
 
 /**
- UIView, that will be used for zoom transition. Both source and destination view controllers need to implement this method, otherwise ZoomInteractiveTransition will not be performed. 
+ UIView, that will be used for zoom transition. Both source and destination view controllers need to implement this method, otherwise ZoomInteractiveTransition will not be performed.
+ 
+ @param isSource Boolean, that is true if the view controller implementing this method is the source view controller of a transition.
  
  @return UIView, that will participate in transition.
  */
--(UIView *)viewForZoomTransition;
+-(UIView *)viewForZoomTransition:(BOOL)isSource;
 
 @optional
 
