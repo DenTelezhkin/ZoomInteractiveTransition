@@ -26,7 +26,7 @@
 
 #pragma mark - ZoomTransitionProtocol
 
--(UIView *)viewForZoomTransition
+-(UIView *)viewForZoomTransition:(BOOL)isSource
 {
     return self.kittenImageView;
 }
