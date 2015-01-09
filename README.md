@@ -20,7 +20,7 @@ self.transition = [[ZoomInteractiveTransition alloc] initWithNavigationControlle
 **2.** Adopt ZoomTransitionProtocol by both source and destination view controllers and implement a single method
 
 ```objective-c
--(UIView *)viewForZoomTransition
+-(UIView *)viewForZoomTransition:(BOOL)isSource
 {
   return <view for zooming>;
 }
