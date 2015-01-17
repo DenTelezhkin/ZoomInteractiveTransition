@@ -66,4 +66,9 @@
  */
 - (instancetype)initWithNavigationController:(UINavigationController *)nc;
 
+/**
+ *  Public method to reset the navigation controller's delegate
+ */
+- (void)resetDelegate;
+
 @end
