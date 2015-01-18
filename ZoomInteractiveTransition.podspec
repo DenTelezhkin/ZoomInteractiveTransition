@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZoomInteractiveTransition"
-  s.version      = "0.2.0"
+  s.version      = "0.2.1"
   s.summary      = "Simple zoom transition using iOS 7 Custom View Controller Transitions API "
 
   s.homepage     = "https://github.com/DenHeadless/ZoomInteractiveTransition"
