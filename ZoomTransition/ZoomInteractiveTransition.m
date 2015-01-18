@@ -29,6 +29,7 @@
 
 @interface ZoomInteractiveTransition()
 
+@property (nonatomic, weak) id <UINavigationControllerDelegate> previousDelegate;
 @property (nonatomic, assign) CGFloat startScale;
 @property (nonatomic, assign) UINavigationControllerOperation operation;
 @property (nonatomic, assign) BOOL shouldCompleteTransition;
@@ -45,10 +46,15 @@
     self.transitionAnimationOption = UIViewKeyframeAnimationOptionCalculationModeCubic;
 }
 
+- (void)resetDelegate {
+    self.navigationController.delegate = self.previousDelegate;
+}
+
 - (instancetype)initWithNavigationController:(UINavigationController *)nc
 {
     if (self = [super init]) {
         self.navigationController = nc;
+        self.previousDelegate = nc.delegate;
         nc.delegate = self;
         [self commonSetup];
     }
