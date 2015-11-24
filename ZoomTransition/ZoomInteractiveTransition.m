@@ -102,6 +102,9 @@
     UIView * containerView = [transitionContext containerView];
     UIView * fromView = [fromVC view];
     UIView * toView = [toVC view];
+
+    // fix for rotation bug in iOS 9
+    toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
     
     [containerView addSubview:toView];
     
