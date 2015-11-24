@@ -22,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		434949B3448540D1AE261905 /* libPods-ZoomTransitionExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZoomTransitionExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9816AFA41F5D2D7FC27D0C16 /* Pods-ZoomTransitionExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZoomTransitionExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZoomTransitionExample/Pods-ZoomTransitionExample.release.xcconfig"; sourceTree = "<group>"; };
 		9A7A7CA01965EE6C00B77DFF /* UIView+Snapshotting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Snapshotting.h"; path = "../ZoomTransition/UIView+Snapshotting.h"; sourceTree = "<group>"; };
 		9A7A7CA11965EE6C00B77DFF /* UIView+Snapshotting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Snapshotting.m"; path = "../ZoomTransition/UIView+Snapshotting.m"; sourceTree = "<group>"; };
 		9A7B9C7D195FFB17007F2011 /* ZoomTransitionExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZoomTransitionExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -42,7 +43,7 @@
 		9A9D7C131961EF1100BA98BC /* ZoomInteractiveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoomInteractiveTransition.h; path = ../ZoomTransition/ZoomInteractiveTransition.h; sourceTree = "<group>"; };
 		9A9D7C141961EF1100BA98BC /* ZoomInteractiveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoomInteractiveTransition.m; path = ../ZoomTransition/ZoomInteractiveTransition.m; sourceTree = "<group>"; };
 		9A9D7C161961EF8000BA98BC /* ZoomTransitionProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZoomTransitionProtocol.h; path = ../ZoomTransition/ZoomTransitionProtocol.h; sourceTree = "<group>"; };
-		B8233D55B9CF4FAA8C26F5FF /* Pods-ZoomTransitionExample.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZoomTransitionExample.xcconfig"; path = "Pods/Pods-ZoomTransitionExample.xcconfig"; sourceTree = "<group>"; };
+		FBCBADC4163C99E377EC8FEC /* Pods-ZoomTransitionExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZoomTransitionExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZoomTransitionExample/Pods-ZoomTransitionExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +58,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8F826A41B95264DEA002F077 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FBCBADC4163C99E377EC8FEC /* Pods-ZoomTransitionExample.debug.xcconfig */,
+				9816AFA41F5D2D7FC27D0C16 /* Pods-ZoomTransitionExample.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		9A011C1A196002A800971EEA /* Interface */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,7 +115,7 @@
 				9A7B9C86195FFB17007F2011 /* Example */,
 				9A7B9C7E195FFB17007F2011 /* Products */,
 				CD6EE5ABA1CD4222A167F59A /* Frameworks */,
-				B8233D55B9CF4FAA8C26F5FF /* Pods-ZoomTransitionExample.xcconfig */,
+				8F826A41B95264DEA002F077 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -162,6 +172,7 @@
 				9A7B9C7A195FFB17007F2011 /* Frameworks */,
 				9A7B9C7B195FFB17007F2011 /* Resources */,
 				6113CCAD9EFE4FCD94E16E81 /* Copy Pods Resources */,
+				3C89251730C871659EF631D9 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -178,7 +189,7 @@
 		9A7B9C75195FFB17007F2011 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Denys Telezhkin";
 			};
 			buildConfigurationList = 9A7B9C78195FFB17007F2011 /* Build configuration list for PBXProject "ZoomTransitionExample" */;
@@ -227,6 +238,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		3C89251730C871659EF631D9 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZoomTransitionExample/Pods-ZoomTransitionExample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6113CCAD9EFE4FCD94E16E81 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -239,7 +265,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-ZoomTransitionExample-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZoomTransitionExample/Pods-ZoomTransitionExample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -291,6 +317,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -347,13 +374,14 @@
 		};
 		9A7B9CAA195FFB17007F2011 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B8233D55B9CF4FAA8C26F5FF /* Pods-ZoomTransitionExample.xcconfig */;
+			baseConfigurationReference = FBCBADC4163C99E377EC8FEC /* Pods-ZoomTransitionExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ZoomSegueExample/Example.pch;
 				INFOPLIST_FILE = ZoomSegueExample/Example.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mlsdev.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = ZoomTransitionExample;
 				WRAPPER_EXTENSION = app;
 			};
@@ -361,13 +389,14 @@
 		};
 		9A7B9CAB195FFB17007F2011 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B8233D55B9CF4FAA8C26F5FF /* Pods-ZoomTransitionExample.xcconfig */;
+			baseConfigurationReference = 9816AFA41F5D2D7FC27D0C16 /* Pods-ZoomTransitionExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ZoomSegueExample/Example.pch;
 				INFOPLIST_FILE = ZoomSegueExample/Example.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mlsdev.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = ZoomTransitionExample;
 				WRAPPER_EXTENSION = app;
 			};
