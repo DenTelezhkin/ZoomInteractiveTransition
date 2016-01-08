@@ -158,13 +158,13 @@
                                   if ([transitionContext transitionWasCancelled]) {
                                       [toView removeFromSuperview];
                                       [transitionContext completeTransition:NO];
-                                      zoomFromView.alpha = 1;
                                   } else {
                                       [fromView removeFromSuperview];
                                       [transitionContext completeTransition:YES];
-                                      zoomToView.alpha = 1;
                                   }
                                   [animatingImageView removeFromSuperview];
+                                  zoomFromView.alpha = 1;
+                                  zoomToView.alpha = 1;
                               }];
 }
 
