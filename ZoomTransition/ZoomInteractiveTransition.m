@@ -221,16 +221,18 @@
     if (![fromVC conformsToProtocol:@protocol(ZoomTransitionProtocol)] ||
         ![toVC conformsToProtocol:@protocol(ZoomTransitionProtocol)])
     {
-        navigationController.interactivePopGestureRecognizer.delegate = toVC;
+        navigationController.interactivePopGestureRecognizer.delegate = (id <UIGestureRecognizerDelegate>)toVC;
         return nil;
     }
     
     // Force to load the views (loadView/viewDidLoad will be called)
-    fromVC.view; toVC.view;
+    [fromVC view];
+    [toVC view];
+    
     if (![(id<ZoomTransitionProtocol>)fromVC viewForZoomTransition:YES] ||
         ![(id<ZoomTransitionProtocol>)toVC viewForZoomTransition:NO])
     {
-        navigationController.interactivePopGestureRecognizer.delegate = toVC;
+        navigationController.interactivePopGestureRecognizer.delegate = (id <UIGestureRecognizerDelegate>)toVC;
         return nil;
     }
     
@@ -242,7 +244,7 @@
         if ([fromVC respondsToSelector:@selector(animationControllerForTransitionToViewController:)]) {
             return [(id<ZoomTransitionProtocol>)fromVC animationControllerForTransitionToViewController:toVC];
         } else {
-            navigationController.interactivePopGestureRecognizer.delegate = toVC;
+            navigationController.interactivePopGestureRecognizer.delegate = (id <UIGestureRecognizerDelegate>)toVC;
             return nil;
         }
     }
