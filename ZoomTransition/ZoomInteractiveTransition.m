@@ -102,7 +102,7 @@
     UIView * containerView = [transitionContext containerView];
     UIView * fromView = [fromVC view];
     UIView * toView = [toVC view];
-
+    
     // fix for rotation bug in iOS 9
     toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
     
@@ -130,10 +130,19 @@
     
     if (self.handleEdgePanBackGesture)
     {
-        UIScreenEdgePanGestureRecognizer *edgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self
-                                                                                                                action:@selector(handleEdgePan:)];
-        edgePanRecognizer.edges = UIRectEdgeLeft;
-        [toView addGestureRecognizer:edgePanRecognizer];
+        BOOL hasAdded = NO;
+        for (UIGestureRecognizer *gr in toView.gestureRecognizers) {
+            if ([gr isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]) {
+                hasAdded = YES;
+                break;
+            }
+        }
+        if (!hasAdded) {
+            UIScreenEdgePanGestureRecognizer *edgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self
+                                                                                                                    action:@selector(handleEdgePan:)];
+            edgePanRecognizer.edges = UIRectEdgeLeft;
+            [toVC.view addGestureRecognizer:edgePanRecognizer];
+        }
     }
     
     ZoomAnimationBlock animationBlock = nil;
@@ -212,7 +221,30 @@
     if (![fromVC conformsToProtocol:@protocol(ZoomTransitionProtocol)] ||
         ![toVC conformsToProtocol:@protocol(ZoomTransitionProtocol)])
     {
+        navigationController.interactivePopGestureRecognizer.delegate = toVC;
         return nil;
+    }
+    
+    // Force to load the views (loadView/viewDidLoad will be called)
+    fromVC.view; toVC.view;
+    if (![(id<ZoomTransitionProtocol>)fromVC viewForZoomTransition:YES] ||
+        ![(id<ZoomTransitionProtocol>)toVC viewForZoomTransition:NO])
+    {
+        navigationController.interactivePopGestureRecognizer.delegate = toVC;
+        return nil;
+    }
+    
+    if (([fromVC respondsToSelector:@selector(shouldAllowZoomTransitionForOperation:fromViewController:toViewController:)] &&
+         ![(id<ZoomTransitionProtocol>)fromVC shouldAllowZoomTransitionForOperation:operation fromViewController:fromVC toViewController:toVC]) ||
+        ([toVC respondsToSelector:@selector(shouldAllowZoomTransitionForOperation:fromViewController:toViewController:)] &&
+         ![(id<ZoomTransitionProtocol>)toVC shouldAllowZoomTransitionForOperation:operation fromViewController:fromVC toViewController:toVC]))
+    {
+        if ([fromVC respondsToSelector:@selector(animationControllerForTransitionToViewController:)]) {
+            return [(id<ZoomTransitionProtocol>)fromVC animationControllerForTransitionToViewController:toVC];
+        } else {
+            navigationController.interactivePopGestureRecognizer.delegate = toVC;
+            return nil;
+        }
     }
     
     return self;
@@ -221,11 +253,11 @@
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
                          interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController
 {
-    if (self.isInteractive) {
-        return self;
+    if (!self.isInteractive) {
+        return nil;
     }
     
-    return nil;
+    return self;
 }
 
 @end

@@ -62,4 +62,29 @@ typedef void(^ZoomAnimationBlock)(UIImageView * animatedSnapshot, UIView * sourc
  */
 -(ZoomAnimationBlock)animationBlockForZoomTransition;
 
+
+/**
+ Decide if ZoomInteractiveTransition animator object is allowed.
+ 
+ @param operation The type of transition operation that is occurring. For a list of possible values, see the “UINavigationControllerOperation” constants.
+ 
+ @param fromVC The currently visible view controller.
+ 
+ @param toVC The view controller that should be visible at the end of the transition.
+ 
+ @return Yes to allow the zoom transition.
+ */
+-(BOOL)shouldAllowZoomTransitionForOperation:(UINavigationControllerOperation)operation
+                          fromViewController:(UIViewController *)fromVC
+                            toViewController:(UIViewController *)toVC;
+
+/**
+ If ZoomInteractiveTransition animator object isn't allowed, return another one instead.
+ 
+ @param toVC The view controller that should be visible at the end of the transition.
+ 
+ @return The animator object responsible for managing the transition animations, or nil if you want to use the standard navigation controller transitions. The object you return must conform to the UIViewControllerAnimatorTransitioning protocol.
+ */
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForTransitionToViewController:(UIViewController *)toVC;
+
 @end
