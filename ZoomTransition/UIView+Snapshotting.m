@@ -32,7 +32,7 @@
 {
     // Use pre iOS-7 snapshot API since we need to render views that are off-screen.
     // iOS 7 snapshot API allows us to snapshot only things on screen
-    UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0);
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, [UIScreen mainScreen].scale);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     [self.layer renderInContext:ctx];
     UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();

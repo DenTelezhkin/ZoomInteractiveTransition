@@ -77,22 +77,18 @@
     return self.transitionDuration;
 }
 
+-(UIImageView *)snapshotImageViewFromView:(UIView *)view {
+    UIImage * snapshot = [view dt_takeSnapshot];
+    UIImageView * imageView = [[UIImageView alloc] initWithImage:snapshot];
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.clipsToBounds = YES;
+    return imageView;
+}
+
 -(UIImageView *)initialZoomSnapshotFromView:(UIView *)sourceView
                             destinationView:(UIView *)destinationView
 {
-    
-    UIImage * fromSnapshot = [sourceView dt_takeSnapshot];
-    UIImage * toSnapshot = [destinationView dt_takeSnapshot];
-    
-    UIImage * animateSnapshot = toSnapshot;
-    if (fromSnapshot.size.width>toSnapshot.size.width)
-    {
-        animateSnapshot = fromSnapshot;
-    }
-    UIImageView * sourceImageView = [[UIImageView alloc] initWithImage:animateSnapshot];
-    sourceImageView.contentMode = UIViewContentModeScaleAspectFill;
-    
-    return sourceImageView;
+    return [self snapshotImageViewFromView:(sourceView.bounds.size.width > destinationView.bounds.size.width) ? sourceView : destinationView];
 }
 
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
@@ -102,34 +98,39 @@
     UIView * containerView = [transitionContext containerView];
     UIView * fromView = [fromVC view];
     UIView * toView = [toVC view];
+    [containerView addSubview:fromView];
+    [containerView addSubview:toView];
     
     // fix for rotation bug in iOS 9
     toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
     
-    [containerView addSubview:toView];
+    // original zoom view
+    UIView * fromZoomView = [fromVC viewForZoomTransition:true];
+    UIView * toZoomView = [toVC viewForZoomTransition:false];
     
-    UIView * zoomFromView = [fromVC viewForZoomTransition:true];
-    UIView * zoomToView = [toVC viewForZoomTransition:false];
-    
-    UIImageView * animatingImageView = [self initialZoomSnapshotFromView:zoomFromView
-                                                         destinationView:zoomToView];
-    
-    if ([fromVC respondsToSelector:@selector(initialZoomViewSnapshotFromProposedSnapshot:)])
-    {
+    // prepare animating image view
+    UIImageView * animatingImageView;
+    if ([fromVC respondsToSelector:@selector(initialZoomViewSnapshotFromProposedSnapshot:)]) {
         animatingImageView = [fromVC initialZoomViewSnapshotFromProposedSnapshot:animatingImageView];
+    } else {
+        animatingImageView = [self initialZoomSnapshotFromView:fromZoomView destinationView:toZoomView];
     }
+    animatingImageView.frame = CGRectIntegral([fromZoomView.superview convertRect:fromZoomView.frame toView:containerView]);
     
-    animatingImageView.frame = [zoomFromView.superview convertRect:zoomFromView.frame
-                                                            toView:containerView];
+    // hide original zoom views
+    fromZoomView.alpha = 0;
+    toZoomView.alpha = 0;
     
-    fromView.alpha = 1;
-    toView.alpha = 0;
-    zoomFromView.alpha = 0;
-    zoomToView.alpha = 0;
+    // add animating background view
+    UIImageView *backgroundView = [self snapshotImageViewFromView:fromView];
+    [containerView addSubview:backgroundView];
+    
+    // add animating image view
     [containerView addSubview:animatingImageView];
     
-    if (self.handleEdgePanBackGesture)
-    {
+    // add edge pan gesture if it's going forward
+    BOOL isGoingForward = [self.navigationController.viewControllers indexOfObject:fromVC] == (self.navigationController.viewControllers.count - 2);
+    if (isGoingForward && self.handleEdgePanBackGesture) {
         BOOL wasAdded = NO;
         for (UIGestureRecognizer *gr in toView.gestureRecognizers) {
             if ([gr isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]) {
@@ -137,47 +138,42 @@
                 break;
             }
         }
-        if (!wasAdded)
-        {
-            UIScreenEdgePanGestureRecognizer *edgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self
-                                                                                                                    action:@selector(handleEdgePan:)];
+        if (!wasAdded) {
+            UIScreenEdgePanGestureRecognizer *edgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(handleEdgePan:)];
             edgePanRecognizer.edges = UIRectEdgeLeft;
             [toVC.view addGestureRecognizer:edgePanRecognizer];
         }
     }
     
+    // animation
     [UIView animateKeyframesWithDuration:self.transitionDuration
                                    delay:0
                                  options:self.transitionAnimationOption
                               animations:^{
-                                  animatingImageView.frame = [zoomToView.superview convertRect:zoomToView.frame toView:containerView];
-                                  fromView.alpha = 0;
-                                  toView.alpha = 1;
+                                  animatingImageView.frame = CGRectIntegral([toZoomView.superview convertRect:toZoomView.frame toView:containerView]);
+                                  backgroundView.alpha = 0;
                                   
                                   if ([fromVC respondsToSelector:@selector(animationBlockForZoomTransition)]) {
                                       ZoomAnimationBlock zoomAnimationBlock = [fromVC animationBlockForZoomTransition];
                                       if (zoomAnimationBlock) {
-                                          zoomAnimationBlock(animatingImageView, zoomFromView, zoomToView);
+                                          zoomAnimationBlock(animatingImageView, fromZoomView, toZoomView);
                                       }
                                   }
                               } completion:^(BOOL finished) {
                                   void (^completion)(void) = ^void (void) {
-                                      if ([transitionContext transitionWasCancelled]) {
-                                          [toView removeFromSuperview];
-                                          [transitionContext completeTransition:NO];
-                                      } else {
-                                          [fromView removeFromSuperview];
-                                          [transitionContext completeTransition:YES];
-                                      }
+                                      [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+                                      
                                       [animatingImageView removeFromSuperview];
-                                      zoomFromView.alpha = 1;
-                                      zoomToView.alpha = 1;
+                                      [backgroundView removeFromSuperview];
+                                      
+                                      fromZoomView.alpha = 1;
+                                      toZoomView.alpha = 1;
                                   };
                                   
                                   if ([fromVC respondsToSelector:@selector(completionBlockForZoomTransition)]) {
                                       ZoomCompletionBlock zoomCompletionBlock = [fromVC completionBlockForZoomTransition];
                                       if (zoomCompletionBlock) {
-                                          zoomCompletionBlock(animatingImageView, zoomFromView, zoomToView, completion);
+                                          zoomCompletionBlock(animatingImageView, fromZoomView, toZoomView, completion);
                                           return;
                                       }
                                   }
