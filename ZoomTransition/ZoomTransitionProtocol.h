@@ -27,6 +27,7 @@
 #import <UIKit/UIKit.h>
 
 typedef void(^ZoomAnimationBlock)(UIImageView * animatedSnapshot, UIView * sourceView, UIView * destinationView);
+typedef void(^ZoomCompletionBlock)(UIImageView * animatedSnapshot, UIView * sourceView, UIView * destinationView, void(^completion)(void));
 
 /**
  ZoomTransitionProtocol should be implemented by UIViewControllers, that wish to participate in zoom transition.
@@ -61,6 +62,14 @@ typedef void(^ZoomAnimationBlock)(UIImageView * animatedSnapshot, UIView * sourc
  @return Animation block.
  */
 -(ZoomAnimationBlock)animationBlockForZoomTransition;
+
+
+/**
+ Custom animation block, that will be called inside UIView animateKeyFramesWithDuration:delay:options:animations:completion: method when the animation is completed.
+ 
+ @return Animation block.
+ */
+-(ZoomCompletionBlock)completionBlockForZoomTransition;
 
 
 /**

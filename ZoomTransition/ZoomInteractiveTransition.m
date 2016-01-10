@@ -130,25 +130,20 @@
     
     if (self.handleEdgePanBackGesture)
     {
-        BOOL hasAdded = NO;
+        BOOL wasAdded = NO;
         for (UIGestureRecognizer *gr in toView.gestureRecognizers) {
             if ([gr isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]) {
-                hasAdded = YES;
+                wasAdded = YES;
                 break;
             }
         }
-        if (!hasAdded) {
+        if (!wasAdded)
+        {
             UIScreenEdgePanGestureRecognizer *edgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self
                                                                                                                     action:@selector(handleEdgePan:)];
             edgePanRecognizer.edges = UIRectEdgeLeft;
             [toVC.view addGestureRecognizer:edgePanRecognizer];
         }
-    }
-    
-    ZoomAnimationBlock animationBlock = nil;
-    if ([fromVC respondsToSelector:@selector(animationBlockForZoomTransition)])
-    {
-        animationBlock = [fromVC animationBlockForZoomTransition];
     }
     
     [UIView animateKeyframesWithDuration:self.transitionDuration
@@ -159,21 +154,34 @@
                                   fromView.alpha = 0;
                                   toView.alpha = 1;
                                   
-                                  if (animationBlock)
-                                  {
-                                      animationBlock(animatingImageView,zoomFromView,zoomToView);
+                                  if ([fromVC respondsToSelector:@selector(animationBlockForZoomTransition)]) {
+                                      ZoomAnimationBlock zoomAnimationBlock = [fromVC animationBlockForZoomTransition];
+                                      if (zoomAnimationBlock) {
+                                          zoomAnimationBlock(animatingImageView, zoomFromView, zoomToView);
+                                      }
                                   }
                               } completion:^(BOOL finished) {
-                                  if ([transitionContext transitionWasCancelled]) {
-                                      [toView removeFromSuperview];
-                                      [transitionContext completeTransition:NO];
-                                  } else {
-                                      [fromView removeFromSuperview];
-                                      [transitionContext completeTransition:YES];
+                                  void (^completion)(void) = ^void (void) {
+                                      if ([transitionContext transitionWasCancelled]) {
+                                          [toView removeFromSuperview];
+                                          [transitionContext completeTransition:NO];
+                                      } else {
+                                          [fromView removeFromSuperview];
+                                          [transitionContext completeTransition:YES];
+                                      }
+                                      [animatingImageView removeFromSuperview];
+                                      zoomFromView.alpha = 1;
+                                      zoomToView.alpha = 1;
+                                  };
+                                  
+                                  if ([fromVC respondsToSelector:@selector(completionBlockForZoomTransition)]) {
+                                      ZoomCompletionBlock zoomCompletionBlock = [fromVC completionBlockForZoomTransition];
+                                      if (zoomCompletionBlock) {
+                                          zoomCompletionBlock(animatingImageView, zoomFromView, zoomToView, completion);
+                                          return;
+                                      }
                                   }
-                                  [animatingImageView removeFromSuperview];
-                                  zoomFromView.alpha = 1;
-                                  zoomToView.alpha = 1;
+                                  completion();
                               }];
 }
 
