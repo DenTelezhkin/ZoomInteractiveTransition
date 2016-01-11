@@ -1,5 +1,5 @@
-![CocoaPod platform](https://cocoapod-badges.herokuapp.com/p/ZoomInteractiveTransition/badge.png) &nbsp; 
-![CocoaPod version](https://cocoapod-badges.herokuapp.com/v/ZoomInteractiveTransition/badge.png) &nbsp; 
+![CocoaPod platform](https://cocoapod-badges.herokuapp.com/p/ZoomInteractiveTransition/badge.png) &nbsp;
+![CocoaPod version](https://cocoapod-badges.herokuapp.com/v/ZoomInteractiveTransition/badge.png) &nbsp;
 ![License MIT](https://go-shields.herokuapp.com/license-MIT-blue.png)
 
 ZoomInteractiveTransition
@@ -37,10 +37,11 @@ And that's it! All frame calculation and animations are performed automatically.
 
 Available customizations:
 
-* Duration 
+* Duration
 * Animation curve
-* interactive pop back gesture
-* initial snapshot
+* Interactive pop back gesture
+* Initial snapshot
+* Completion block
 
 Additionally, you can plug in your own keyframe animations, that will run alongside interactive transition. These can be supplied via optional <ZoomTransitionProtocol> method animationBlockForZoomTransition.
 
