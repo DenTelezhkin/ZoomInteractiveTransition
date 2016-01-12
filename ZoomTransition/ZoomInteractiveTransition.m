@@ -132,7 +132,7 @@
     BOOL isGoingForward = [self.navigationController.viewControllers indexOfObject:fromVC] == (self.navigationController.viewControllers.count - 2);
     if (isGoingForward && self.handleEdgePanBackGesture) {
         BOOL wasAdded = NO;
-        for (UIGestureRecognizer *gr in toView.gestureRecognizers) {
+        for (UIGestureRecognizer *gr in toVC.view.gestureRecognizers) {
             if ([gr isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]) {
                 wasAdded = YES;
                 break;
@@ -214,19 +214,28 @@
 
 #pragma mark - UINavigationControllerDelegate
 
+- (id)_return:(id)returnValue
+           nC:(UINavigationController *)nC
+       fromVC:(UIViewController<UIGestureRecognizerDelegate> *)fromVC
+         toVC:(UIViewController<UIGestureRecognizerDelegate> *)toVC {
+    if (!returnValue || !self.handleEdgePanBackGesture) {
+        nC.interactivePopGestureRecognizer.delegate = (id <UIGestureRecognizerDelegate>)toVC;
+    }
+    return returnValue;
+}
+
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
                                   animationControllerForOperation:(UINavigationControllerOperation)operation
                                                fromViewController:(UIViewController *)fromVC
                                                  toViewController:(UIViewController *)toVC {
     if (!navigationController) {
-        return  nil;
+        return [self _return:nil nC:nil fromVC:nil toVC:nil];
     }
     
     if (![fromVC conformsToProtocol:@protocol(ZoomTransitionProtocol)] ||
         ![toVC conformsToProtocol:@protocol(ZoomTransitionProtocol)])
     {
-        navigationController.interactivePopGestureRecognizer.delegate = (id <UIGestureRecognizerDelegate>)toVC;
-        return nil;
+        return [self _return:nil nC:navigationController fromVC:fromVC toVC:toVC];
     }
     
     // Force to load the views (loadView/viewDidLoad will be called)
@@ -236,8 +245,7 @@
     if (![(id<ZoomTransitionProtocol>)fromVC viewForZoomTransition:YES] ||
         ![(id<ZoomTransitionProtocol>)toVC viewForZoomTransition:NO])
     {
-        navigationController.interactivePopGestureRecognizer.delegate = (id <UIGestureRecognizerDelegate>)toVC;
-        return nil;
+        return [self _return:nil nC:navigationController fromVC:fromVC toVC:toVC];
     }
     
     if (([fromVC respondsToSelector:@selector(shouldAllowZoomTransitionForOperation:fromViewController:toViewController:)] &&
@@ -246,14 +254,14 @@
          ![(id<ZoomTransitionProtocol>)toVC shouldAllowZoomTransitionForOperation:operation fromViewController:fromVC toViewController:toVC]))
     {
         if ([fromVC respondsToSelector:@selector(animationControllerForTransitionToViewController:)]) {
-            return [(id<ZoomTransitionProtocol>)fromVC animationControllerForTransitionToViewController:toVC];
+            id<UIViewControllerAnimatedTransitioning> returnValue = [(id<ZoomTransitionProtocol>)fromVC animationControllerForTransitionToViewController:toVC];
+            return [self _return:returnValue nC:navigationController fromVC:fromVC toVC:toVC];
         } else {
-            navigationController.interactivePopGestureRecognizer.delegate = (id <UIGestureRecognizerDelegate>)toVC;
-            return nil;
+            return [self _return:nil nC:navigationController fromVC:fromVC toVC:toVC];
         }
     }
     
-    return self;
+    return [self _return:self nC:navigationController fromVC:fromVC toVC:toVC];
 }
 
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
