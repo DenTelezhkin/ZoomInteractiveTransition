@@ -112,7 +112,8 @@
     UIImageView * animatingImageView;
     if ([fromVC respondsToSelector:@selector(initialZoomViewSnapshotFromProposedSnapshot:)]) {
         animatingImageView = [fromVC initialZoomViewSnapshotFromProposedSnapshot:animatingImageView];
-    } else {
+    }
+    if (!animatingImageView) {
         animatingImageView = [self initialZoomSnapshotFromView:fromZoomView destinationView:toZoomView];
     }
     animatingImageView.frame = CGRectIntegral([fromZoomView.superview convertRect:fromZoomView.frame toView:containerView]);
