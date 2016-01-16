@@ -48,3 +48,5 @@ Additionally, you can plug in your own keyframe animations, that will run alongs
 ## Example
 
 Example with cats is provided in ZoomTransitionExample folder.
+
+*Note:* PlaceKit.framework, that is used in Example project, requires ssh key to clone it's repository, so you may need to add Github SSH key on your local machine to be able to install example project. [Instructions](https://help.github.com/articles/generating-ssh-keys/).
