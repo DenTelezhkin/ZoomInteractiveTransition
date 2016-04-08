@@ -161,7 +161,7 @@
                                       }
                                   }
                               } completion:^(BOOL finished) {
-                                  void (^completion)(void) = ^void (void) {
+                                  dispatch_block_t completion = ^{
                                       [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
                                       
                                       [animatingImageView removeFromSuperview];
