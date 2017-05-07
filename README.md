@@ -9,6 +9,10 @@ Simple zoom transition, inspired by iOS 7 Photos.app. Example:
 
 ![](ZoomInteractiveTransition.gif)
 
+## Project status
+
+This project is a showcase of what's possible rather than completely ready drop-in framework. If you are looking for more full-fledged and actively developed solution, I suggest looking at [Hero](https://github.com/lkzhao/Hero).
+
 ## Usage
 
 **1.** Create ZoomInteractiveTransition instance and pass your UINavigationController to constructor.
